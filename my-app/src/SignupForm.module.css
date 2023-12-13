@@ -1,0 +1,13 @@
+.signupContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.signupForm {
+  width: 500px;
+  padding: 50px;
+  background-color: aliceblue;
+  border-radius: 10px;
+}
