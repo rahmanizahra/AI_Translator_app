@@ -9,6 +9,7 @@ body {
   background-image: url("./images/b.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
 }
 
 h1 {
@@ -34,7 +35,9 @@ h1 {
 }
 
 .container form label {
-  background: #c9d3f0;
+  background: #f9f6f0;
+  border: #ffb52e;
+  border-color: #ffb52e;
   color: #023047;
   height: 40px;
   width: 200px;
@@ -67,11 +70,15 @@ option {
   padding: 8px;
   font-size: 20px;
   border: none;
-  background: #8d75ee;
+  background: #ffc55c;
   color: #fff;
   border-radius: 5px;
   font-weight: bold;
   cursor: pointer;
+}
+.backgroundWhite:hover {
+  background: #ffb52e;
+  color: #fff;
 }
 
 .translation {

@@ -2,11 +2,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const OpenAI = require('openai'); // Add this line to import the OpenAI library
+const OpenAI = require('openai'); 
 require('dotenv').config(); 
 const app = express();
-const port = 3001; // Choose a port for your backend
-
+const port = 3001; 
+const verifyToken = require('./middleware/verifyToken.js');
+const handleErrors = require('./middleware/handleError.js');
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -14,6 +15,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
+
+// Set Swagger
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const swaggerOptions = require('./swagger.json');
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+const {SwaggerTheme} = require('swagger-themes');
+const theme=new SwaggerTheme('v3');
+const options={
+  explorer: true, 
+  customCss: theme.getBuffer('material'),
+};
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, options));
 
 // SET a DATABASE
 const sqlite3 = require('sqlite3').verbose();

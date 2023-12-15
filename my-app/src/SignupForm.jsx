@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
-import styles from "./SignupForm.module.css"; // Import your custom CSS module
+import "bootstrap/dist/css/bootstrap.min.css";
+import styles from "./SignupForm.module.css";
 import App from "./App";
 function SignupForm() {
   const [name, setName] = useState("");
@@ -31,8 +31,12 @@ function SignupForm() {
               <div className="mb-3">
                 <label
                   htmlFor="name"
-                  className="form-label"
-                  style={{ width: "100%" }}
+                  //className={styles.labelSignup}
+                  style={{
+                    backgroundColor: " #ffd68a",
+                    width: "100%",
+                    marginBottom: "5px",
+                  }}
                 >
                   Full Name:
                 </label>
@@ -48,8 +52,11 @@ function SignupForm() {
               <div className="mb-3">
                 <label
                   htmlFor="email"
-                  className="form-label"
-                  style={{ width: "100%" }}
+                  style={{
+                    backgroundColor: " #ffd68a",
+                    width: "100%",
+                    marginBottom: "5px",
+                  }}
                 >
                   Email:
                 </label>
@@ -65,8 +72,11 @@ function SignupForm() {
               <div className="mb-3">
                 <label
                   htmlFor="password"
-                  className="form-label"
-                  style={{ width: "100%" }}
+                  style={{
+                    backgroundColor: " #ffd68a",
+                    width: "100%",
+                    marginBottom: "5px",
+                  }}
                 >
                   Password:
                 </label>
@@ -98,7 +108,7 @@ function SignupForm() {
           </div>
         </div>
       )}
-      {isSignedUp && <App name={name} />}
+      {isSignedUp && <App />}
     </>
   );
 }

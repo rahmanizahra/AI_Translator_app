@@ -1,7 +1,7 @@
 import { BeatLoader } from "react-spinners";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState} from "react";
 import "./App.css";
-function App({ name }) {
+function App() {
   const [formData, setFormData] = useState({
     language: "",
     message: "",
@@ -10,25 +10,7 @@ function App({ name }) {
   const [showNotification, setShowNotification] = useState(false);
   const [translation, setTranslation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
 
-  const sentences = useMemo(
-    () => [
-      `Welcome ${name},`,
-      `I'm a Translation App`,
-      "You can use me for different languages...",
-    ],
-    [name]
-  );
-  useEffect(() => {
-    if (currentSentenceIndex < sentences.length + 1) {
-      const timeout = setTimeout(() => {
-        setCurrentSentenceIndex(currentSentenceIndex + 1);
-      }, 1000);
-      return () => clearTimeout(timeout);
-    }
-  }, [currentSentenceIndex, sentences]);
-  /////////////////////////////////////////
 
   const API_URL = "http://localhost:3001/api";
   const translate = async () => {
@@ -119,34 +101,9 @@ function App({ name }) {
 
   return (
     <>
-      <div className="container">
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "80px",
-          }}
-        >
-          <div className="avatarContainer">
-            <img
-              src={require("./images/avatar-scopy.png")}
-              alt="moving avatar"
-              width="100px"
-              height="200px"
-              className="avatar"
-            />
-          </div>
-          <div className="sentence-container">
-            {sentences.slice(0, currentSentenceIndex).map((sentence, index) => (
-              <p key={index} className="sentence">
-                {sentence}
-              </p>
-            ))}
-          </div>
-        </div>
-
-        <form onSubmit={handleOnSubmit}>
-          <div className="choices">
+      <div className="container" style={{backgroundColor:"rgb(59, 158, 167)"}}>
+        <form onSubmit={handleOnSubmit} style={{backgroundColor:"rgb(59, 158, 167)"}}>
+          <div className="choices" style={{backgroundColor:"rgb(59, 158, 167)"}}>
             <label htmlFor="language">Select a language:</label>
             <select
               id="language"
@@ -176,12 +133,13 @@ function App({ name }) {
             <button
               style={{ width: "100%", marginBottom: "10px" }}
               type="submit"
+              className="backgroundWhite"
             >
               Translate
             </button>
           </div>
           <div>
-            <button style={{ width: "100%" }} onClick={handleRewrite}>
+            <button className="backgroundWhite" style={{ width: "100%" }} onClick={handleRewrite}>
               Rewrite
             </button>
           </div>
