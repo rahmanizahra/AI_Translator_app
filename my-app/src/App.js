@@ -1,6 +1,9 @@
 import { BeatLoader } from "react-spinners";
 import React, { useState} from "react";
 import "./App.css";
+import { useNavigate } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
   const [formData, setFormData] = useState({
     language: "",
@@ -10,7 +13,7 @@ function App() {
   const [showNotification, setShowNotification] = useState(false);
   const [translation, setTranslation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+const navigate = useNavigate();
 
   const API_URL = "http://localhost:3001/api";
   const translate = async () => {
@@ -99,11 +102,74 @@ function App() {
     }, 3000);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  }
+const handleUpdatePassword = () => {
+    // Handle password update logic (replace with your password update logic)
+    navigate("/update/password");
+  };
+
+  const handleDelete = () => {
+    // Handle account deletion logic (replace with your actual account deletion logic)
+    navigate("/delete");
+  };
   return (
     <>
-      <div className="container" style={{backgroundColor:"rgb(59, 158, 167)"}}>
-        <form onSubmit={handleOnSubmit} style={{backgroundColor:"rgb(59, 158, 167)"}}>
-          <div className="choices" style={{backgroundColor:"rgb(59, 158, 167)"}}>
+      <div
+        className="container"
+        style={{ backgroundColor: "rgb(59, 158, 167)" }}
+      >
+        <header
+      style={{
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "center",
+      }}
+    >
+      <div className="btn-group">
+        <button
+          type="button"
+          className="btn btn-secondary dropdown-toggle"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Profile
+        </button>
+        <ul className="dropdown-menu">
+          <li>
+            <button className="dropdown-item" onClick={handleUpdatePassword}>
+              Update Password
+            </button>
+          </li>
+           <li>
+            <hr className="dropdown-divider" />
+          </li>
+          <li>
+            <button className="dropdown-item " onClick={handleDelete}>
+              Delete Account
+            </button>
+          </li>
+          <li>
+            <hr className="dropdown-divider" />
+          </li>
+          <li>
+            <button className="dropdown-item" onClick={handleLogout}>
+              Logout
+            </button>
+          </li>
+        </ul>
+      </div>
+    </header>
+        <form
+          onSubmit={handleOnSubmit}
+          style={{ backgroundColor: "rgb(59, 158, 167)" }}
+        >
+          <div
+            className="choices"
+            style={{ backgroundColor: "rgb(59, 158, 167)" }}
+          >
             <label htmlFor="language">Select a language:</label>
             <select
               id="language"
@@ -139,7 +205,11 @@ function App() {
             </button>
           </div>
           <div>
-            <button className="backgroundWhite" style={{ width: "100%" }} onClick={handleRewrite}>
+            <button
+              className="backgroundWhite"
+              style={{ width: "100%" }}
+              onClick={handleRewrite}
+            >
               Rewrite
             </button>
           </div>

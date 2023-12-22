@@ -1,27 +1,45 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./SignupForm.module.css";
-import App from "./App";
+import { useNavigate } from "react-router-dom";
+
 function SignupForm() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [username, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [isSignedUp, setIsSignedUp] = useState(false);
   const [passwordError, setPasswordError] = useState("");
-  const handleSubmit = (e) => {
+  const [showMessage, setShowMessage] = useState(false);
+ const navigate = useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password.length < 6) {
       setPasswordError("Password must be at least 6 characters");
       return;
     } else {
-      setIsSignedUp(true);
+      try{
+        const response = await fetch("http://localhost:3001/api/user/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+        });
+        console.log(response);
+        if(!response.ok){
+          setPasswordError("Invalid username or password");
+      }else{
+setShowMessage("Account created successfully. Please log in.");
+      }
+
+    }catch(error){
+      console.error("Fetch error:", error);
+      setPasswordError("An error occurred. Please try again later.");
     }
+  }
   };
 
   return (
     <>
-      {!isSignedUp && (
-        <div className={`container ${styles.signupContainer}`}>
+           <div className={`container ${styles.signupContainer}`}>
           <div className={`card ${styles.signupForm}`}>
             <h2 className="card-title text-center fw-bold">Sign Up</h2>
             <form
@@ -31,44 +49,24 @@ function SignupForm() {
               <div className="mb-3">
                 <label
                   htmlFor="name"
-                  //className={styles.labelSignup}
-                  style={{
+                    style={{
                     backgroundColor: " #ffd68a",
                     width: "100%",
                     marginBottom: "5px",
                   }}
                 >
-                  Full Name:
+                  Username
                 </label>
                 <input
                   type="text"
                   id="name"
                   className="form-control"
-                  value={name}
+                  value={username}
                   onChange={(e) => setName(e.target.value)}
                   required
                 />
               </div>
-              <div className="mb-3">
-                <label
-                  htmlFor="email"
-                  style={{
-                    backgroundColor: " #ffd68a",
-                    width: "100%",
-                    marginBottom: "5px",
-                  }}
-                >
-                  Email:
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="form-control"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
+             
               <div className="mb-3">
                 <label
                   htmlFor="password"
@@ -78,7 +76,7 @@ function SignupForm() {
                     marginBottom: "5px",
                   }}
                 >
-                  Password:
+                  Password
                 </label>
                 <input
                   type="password"
@@ -89,7 +87,7 @@ function SignupForm() {
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
-                    setPasswordError(""); // Clear password error when input changes
+                    setPasswordError(""); 
                   }}
                   required
                 />
@@ -104,11 +102,19 @@ function SignupForm() {
               >
                 Sign Up
               </button>
+              <div style={{margin:"auto",color:"green",padding:"5px"}}>
+                <p>{showMessage}</p>
+              </div>
             </form>
+            <div style={{margin:"auto"}}>
+              <p style={{ margin: "auto", paddingTop: "10px" }}>
+                <button className="btn btn-link" onClick={() => navigate("/")}>
+                  Back to Login
+                </button>
+              </p>
+            </div>
           </div>
         </div>
-      )}
-      {isSignedUp && <App />}
     </>
   );
 }

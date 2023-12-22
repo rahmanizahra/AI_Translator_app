@@ -16,5 +16,5 @@
       }
     ]
   },
-  "apis": ["./docs.yaml"]
+  "apis": ["./components/**/docs.yaml"]
 }

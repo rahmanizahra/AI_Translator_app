@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-//const userController = require('../components/user/index.js');
+const userController = require('../components/user/index.js');
 
 const verifyToken = (req, res, next) => {
     let token = req.get('Authorization');
@@ -21,3 +21,5 @@ const verifyToken = (req, res, next) => {
 }
 
 module.exports = verifyToken;
+
+
