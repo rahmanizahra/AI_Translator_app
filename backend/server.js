@@ -12,12 +12,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-// make an instance of the OpenAI API
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-console.log(process.env.OPENAI_API_KEY);
 // Set Swagger
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -38,12 +32,7 @@ app.use('/api/user', userRoutes);
 app.use('/api',verifyToken, translateRoutes);
 app.use(handleErrors);
 
-// SET a DATABASE
-//const sqlite3 = require('sqlite3').verbose();
-//const db = new sqlite3.Database(':memory:');
-//db.serialize(() => {
-//    db.run("CREATE TABLE translations (id INTEGER PRIMARY KEY AUTOINCREMENT, language TEXT, originalText TEXT, correctedText TEXT, translatedText TEXT, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)");
-//});
+
 app.post('/api/translations', async (req, res) => {
   const { language, originalText, correctedText, translatedText } = req.body;
  var sql ='INSERT INTO translations (language, originalText, correctedText, translatedText) VALUES (?, ?, ?, ?)'
@@ -76,7 +65,7 @@ app.get('/api/translations', async (req, res) => {
 });
 
 
-// Define translation routes
+
 //app.post('/api/translate', async (req, res) => {
 //  const { language, message } = req.body;
 //  try {
@@ -156,12 +145,4 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-async function correctTextWithGPT3(text) {
-  const response = await openai.completions.create({
-    model: 'text-davinci-002',
-    prompt: `Correct the following text: "${text}"`,
-    max_tokens: 50,
-  });
-  const correctedText = response.choices[0].text.trim();
-  return correctedText;
-}
+

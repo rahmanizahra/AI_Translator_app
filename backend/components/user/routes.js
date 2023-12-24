@@ -5,9 +5,7 @@ const verifyToken = require('../../middleware/verifyToken.js');
 router.post('/create', async (req, res) => {
     const { username, password } = req.body;
     const encryptedPassword = await controller.encrypt(password);
-    console.log(encryptedPassword);
     const result = await db.createUser(username, encryptedPassword);
-    console.log(result);
     res.json(result);
 });
 router.post('/delete', verifyToken, async (req, res) => {

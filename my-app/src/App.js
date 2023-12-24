@@ -23,8 +23,8 @@ const navigate = useNavigate();
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ language, message: message }),
+          Authorization: "Bearer " + localStorage.getItem("token") },
+        body: JSON.stringify({ language, message }),
       });
 
       if (response.ok) {
@@ -47,9 +47,9 @@ const navigate = useNavigate();
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message: message, language: language }),
-      });
+          Authorization: "Bearer " + localStorage.getItem("token") },
+          body: JSON.stringify({ message: message, language: language })
+        });
       if (response.ok) {
         const result = await response.json();
         setIsLoading(false);

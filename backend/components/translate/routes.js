@@ -1,22 +1,25 @@
 const router = require('express').Router();
 const db = require('./data.js');
+require('dotenv').config();
+const OpenAI = require('openai');  
 const controller = require('./index.js');
 const verifyToken = require('../../middleware/verifyToken.js');
 
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+async function correctTextWithGPT3(text) {
+  const response = await openai.completions.create({
+    model: 'text-davinci-002',
+    prompt: `Correct the following text: "${text}"`,
+    max_tokens: 50,
+  });
+  const correctedText = response.choices[0].text.trim();
+  return correctedText;
+}
+
 router.post('/translate',verifyToken, async (req, res) => {
-  const{username, password} = req.body;
-  const user = await db.getUser(username);
-  if (user) {
-    const isCorrectPassword = await controller.verifyPassword(password, user.password);
-    if (isCorrectPassword) {
-      const token = await controller.generateToken(user.username);
-      res.json({ token });
-    } else {
-      res.json({ success: false });
-    }
-  } else {
-    res.json({ success: false });
-  }
   const { language, message } = req.body;
   try {
     // Implement translation logic using OpenAI API
@@ -58,19 +61,6 @@ router.post('/translate',verifyToken, async (req, res) => {
 
 
 router.post('/rewrite',verifyToken, async (req, res) => {
-  const{username, password} = req.body;
-  const user = await db.getUser(username);
-  if (user) {
-    const isCorrectPassword = await controller.verifyPassword(password, user.password);
-    if (isCorrectPassword) {
-      const token = await controller.generateToken(user.username);
-      res.json({ token });
-    } else {
-      res.json({ success: false });
-    }
-  } else {
-    res.json({ success: false });
-  }
   const { message,language } = req.body;
   try {
     // Implement rewriting logic using OpenAI API

@@ -85,4 +85,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Status'
+  /user/create:
+    post:
+      tags:
+        - User
+      summary: Create user
+      description: Create user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+  /user/delete:
+    post:
+      tags:
+        - User
+      summary: Delete user
+      description: Delete user
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
                 
